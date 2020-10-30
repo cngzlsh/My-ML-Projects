@@ -22,9 +22,21 @@ Training 8000 batches for 12 epoches took approximately 16 hours on my laptop. (
 When plotted epoch loss, it can be seen to decrease smoothly from 5200 to 4000.
 ![Epoch_Loss](/images/loss_over_epochs_cat_v_dog.png)
 The trained model is saved as a ```.pth``` file (21MB) which can be loaded.
-#### Testing
+#### Evaluation
 When tested on a test set of 500 cats and 500 dogs images, the testing accuracy reached 75. This is certainly not the best but it can be seen that the model is working!
 #### Predictions
 Here is an example of the model predicting on an unseen image (not from training or test sets).
 ![Prediction_Example](/images/prediction_examples_cat_v_dog.png)
 (Sihao, May 2020)
+
+
+### German-English Translator
+This is a Seq2Seq neural machine translation model trained on the Multi30k dataset. 
+#### Seq2seq structures
+The model consists of two recurrent neural netwroks: a German Encoder and an English Decoder with Attention applied. Both RNNs are LSTMs.
+#### Data
+Parallel corpus: 30000 German sentences and their English translation. Preprocessing is done using SpaCy including word tokenisation, adding start of sequence and end of sequence tokens and padding sentences.
+#### Hyperparameters
+#### Training
+#### Evaluation
+#### Test Translation
