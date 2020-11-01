@@ -31,12 +31,36 @@ Here is an example of the model predicting on an unseen image (not from training
 
 
 ### German-English Translator
-This is a Seq2Seq neural machine translation model trained on the Multi30k dataset. 
+This is a Seq2Seq neural machine translation model trained on the Multi30k dataset. I was heavily inspired by https://pytorch.org/tutorials/beginner/torchtext_translation_tutorial.html and the AI Core tutorial https://www.youtube.com/watch?v=UnVYPOGiK3E.
 #### Seq2seq structures
 The model consists of two recurrent neural netwroks: a German Encoder and an English Decoder with Attention applied. Both RNNs are LSTMs.
+Encoder: Consists of an embedding layer, a dropout layer, a hidden LSTM layer and a feed-forward linear output layer. The LSTM is bidirectional so the outputs have doubled the size. When source sentence (in German) is passed into the encoder, it returns the encoding output of the sentence and a tupple (hidden state, cell state).
+Decoder: Consists of an embedding layer, a two-layer linear attention model, a hidden LSTM layer and a feed-forward linear output layer. When the encoding of the German sentence (from the encoder) is passed into the decoder, attention is calculated using encoder output and the hidden states at each time step. Attention score is concatenated with the embedding of the encoder output and then passed into the LSTM layer and output layer. It returns the predicted English translation, the LSTM hidden states and the attention scores.
 #### Data
-Parallel corpus: 30000 German sentences and their English translation. Preprocessing is done using SpaCy including word tokenisation, adding start of sequence and end of sequence tokens and padding sentences.
+Parallel corpus: 30000 German sentences and their English translation. Preprocessing is done using SpaCy including word tokenisation, adding start of sequence and end of sequence tokens and padding sentences. Split into 29000 training sentences and 1000 validation sentences for calculating BLEU score.
+An example is shown here:
+![Multi30k_Example](/images/multi30k_example.png)
 #### Hyperparameters
+Due to hardware restrictions, batch size is set to 50.
+- Input and Output dimensions are the length of vocabulary of source and target fields. (as instructed on the torchtext.Multi30K page)
+- Embedding layer size for both Encoder and Decoder: 256
+- Hidden LSTM layer size for both Encoder and Decoder: 512
+- Training epochs: 50
+- Learning rate: 0.002
+- Optimiser: Adam
+- Loss Function: Cross Entropy Loss
 #### Training
-#### Evaluation
+#### Evaluation (BLEU score)
 #### Test Translation
+Some examples are shown here:
+![Translation_Example](/images/translation_example.png)
+Problems:
+- Named identity is not recognised e.g. deutschland
+- Some nouns are not recognised e.g. apfel even though this exists in the training set
+- Some grammar are not correct e.g. sie kommt = she comes; sie kommen = they come.
+Rooms for improvement:
+- Modify models with more layers and dimensions
+- Increase batch size
+- Implement beam search algorithm
+- Implement Transformer model
+(Sihao, July 2020)
