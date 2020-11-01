@@ -1,15 +1,15 @@
 # My-ML-Projects
 Machine Learning projects I have done throughout learning.
 
-### Cat vs Dog
+## Cat vs Dog
 A convolutional neural network trained on my local machine that identifies a pet as either a cat or a dog.
 To run the IPython Notebook, please ```pip install``` packages: torch, matplotlib, numpy, tqdm, PIL. Alternatively, run ```pip install -r requirements.txt```.
 #### Main ConvNet Structures
 - Convolutional layers: 6 layers, each mapping previous inputs to 16, 32, 64, 128, 256, 32 features. Each convolutional layer is followed by a batch normalisation layer and a ReLU layer. Dropout layers (p=0.25) and max pooling layers are inserted in an attempt to prevent overfitting.
 - Fully Connected layers: 2 layers, mapping the previous features into 2 categories. Log sigmoid function is used to output a probability of each category (Cat or Dog).
 #### Data
-16000 cats and 16000 dogs images, collected from Kaggle (https://www.kaggle.com/chetankv/dogs-cats-images). Can also be downloaded from my OneDrive shared file: https://liveuclac-my.sharepoint.com/:u:/g/personal/zcqssli_ucl_ac_uk/EeDt9KuvkFdMuGlaZdKHbrsB-S48sMgVElgiCqYjlYG28g?e=h0Oof7 (expires June 2021).
-Random transformation, resized crop is performed prior to feeding into the dataloader. Images are shuffled and converted into torch tensor.
+- 16000 cats and 16000 dogs images, collected from Kaggle (https://www.kaggle.com/chetankv/dogs-cats-images). Can also be downloaded from my OneDrive shared file: https://liveuclac-my.sharepoint.com/:u:/g/personal/zcqssli_ucl_ac_uk/EeDt9KuvkFdMuGlaZdKHbrsB-S48sMgVElgiCqYjlYG28g?e=h0Oof7 (expires June 2021).
+- Random transformation, resized crop is performed prior to feeding into the dataloader. Images are shuffled and converted into torch tensor.
 #### Hyperparameters
 My laptop does have a dGPU with CUDA support but is however entry-level. Exact specification is GeForce MX150 with 2GB VRAM.
 - Batch size is set to 4 (I have tried 8 but there is not enough CUDA memory)
@@ -30,15 +30,17 @@ Here is an example of the model predicting on an unseen image (not from training
 (Sihao, May 2020)
 
 
-### German-English Translator
+## German-English Translator
 This is a Seq2Seq neural machine translation model trained on the Multi30k dataset. I was heavily inspired by https://pytorch.org/tutorials/beginner/torchtext_translation_tutorial.html and the AI Core tutorial https://www.youtube.com/watch?v=UnVYPOGiK3E.
+- To run the IPython Notebook, please ```pip install``` packages: torch, torchtext, matplotlib, numpy, tqdm, spacy, sacrebleu. Alternatively, run ```pip install -r requirements.txt```.
+- Must ensure spacy for both English and german are installed: run ```$ python -m spacy download de_core_news_md``` and ```$ python -m spacy download en_core_web_sm``` in terminal (Linux) or command prompt (Windows) or follow instructions on spacy website.
 #### Seq2seq structures
 The model consists of two recurrent neural netwroks: a German Encoder and an English Decoder with Attention applied. Both RNNs are LSTMs.
-Encoder: Consists of an embedding layer, a dropout layer, a hidden LSTM layer and a feed-forward linear output layer. The LSTM is bidirectional so the outputs have doubled the size. When source sentence (in German) is passed into the encoder, it returns the encoding output of the sentence and a tupple (hidden state, cell state).
-Decoder: Consists of an embedding layer, a two-layer linear attention model, a hidden LSTM layer and a feed-forward linear output layer. When the encoding of the German sentence (from the encoder) is passed into the decoder, attention is calculated using encoder output and the hidden states at each time step. Attention score is concatenated with the embedding of the encoder output and then passed into the LSTM layer and output layer. It returns the predicted English translation, the LSTM hidden states and the attention scores.
+- Encoder: Consists of an embedding layer, a dropout layer, a hidden LSTM layer and a feed-forward linear output layer. The LSTM is bidirectional so the outputs have doubled the size. When source sentence (in German) is passed into the encoder, it returns the encoding output of the sentence and a tupple (hidden state, cell state).
+- Decoder: Consists of an embedding layer, a two-layer linear attention model, a hidden LSTM layer and a feed-forward linear output layer. When the encoding of the German sentence (from the encoder) is passed into the decoder, attention is calculated using encoder output and the hidden states at each time step. Attention score is concatenated with the embedding of the encoder output and then passed into the LSTM layer and output layer. It returns the predicted English translation, the LSTM hidden states and the attention scores.
 #### Data
-Parallel corpus: 30000 German sentences and their English translation. Preprocessing is done using SpaCy including word tokenisation, adding start of sequence and end of sequence tokens and padding sentences. Split into 29000 training sentences and 1000 validation sentences for calculating BLEU score.
-An example is shown here:
+- Parallel corpus: 30000 German sentences and their English translation. Preprocessing is done using SpaCy including word tokenisation, adding start of sequence and end of sequence tokens and padding sentences. Split into 29000 training sentences and 1000 validation sentences for calculating BLEU score.
+- An example is shown here:
 ![Multi30k_Example](/images/multi30k_example.png)
 #### Hyperparameters
 Due to hardware restrictions, batch size is set to 50.
