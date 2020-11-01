@@ -56,11 +56,11 @@ Due to hardware restrictions, batch size is set to 50.
 #### Test Translation
 Some examples are shown here:
 ![Translation_Example](/images/translation_example.png)
-Problems:
+##### Problems:
 - Named identity is not recognised e.g. deutschland
 - Some nouns are not recognised e.g. apfel even though this exists in the training set
 - Some grammar are not correct e.g. sie kommt = she comes; sie kommen = they come.
-Rooms for improvement:
+##### Rooms for improvement:
 - Modify models with more layers and dimensions
 - Increase batch size
 - Implement beam search algorithm
