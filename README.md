@@ -48,11 +48,15 @@ Due to hardware restrictions, batch size is set to 50.
 - Embedding layer size for both Encoder and Decoder: 256
 - Hidden LSTM layer size for both Encoder and Decoder: 512
 - Training epochs: 50
-- Learning rate: 0.002
+- Learning rate: 0.001
 - Optimiser: Adam
 - Loss Function: Cross Entropy Loss
 #### Training
+Training 580 batches (29000 examples with batch size of 50) took 5 hours on laptop. Batch loss can be seen to decrease steadily when plotted.
+![Loss_Over_Epoch_Translator](/images/nmt_loss_over_epochs.png)
+Two trained models, one with 20 epochs and one with 50 epochs are saved at ```.pth``` files (45 MB) each. Note that due to GitHub's 25 MB limit I have split them into 2 parts respectively.
 #### Evaluation (BLEU score)
+The trained model achieved a BLEU score of 12 - not really good. Previously I have trained a model with BLEU score of 30.
 #### Test Translation
 Some examples are shown here:
 ![Translation_Example](/images/translation_example.png)
@@ -61,6 +65,7 @@ Some examples are shown here:
 - Some nouns are not recognised e.g. apfel even though this exists in the training set
 - Some grammar are not correct e.g. sie kommt = she comes; sie kommen = they come.
 ##### Rooms for improvement:
+- Get more training examples. e.g. from a human translated book
 - Modify models with more layers and dimensions
 - Increase batch size
 - Implement beam search algorithm
